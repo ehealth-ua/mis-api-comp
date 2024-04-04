@@ -1,0 +1,660 @@
+FORMAT: 1A
+HOST: http://api.ehealth.gov.ua/
+
+# MIS API COMPOSITIONS
+
+**Версія: v.1.0.8**
+
+Медичні висновки для системи Електронне Здоровʼя НСЗУ. Основна специфікація публічних інтерфейсів.  Діаграми робочих процесів
+
+1. Загальний порядок роботи с асихронними задачами [Діграмма взаємодії](https://www.websequencediagrams.com/cgi-bin/cdraw?lz=dGl0bGUg0KHRgtCy0L7RgNC10L3QldGPINC80LXQtNCy0LjRgdC90L7QstC60ZbQsjog0JDRgdC40L3RhdGA0L4AKgWWINC30LDQtNCw0YfRlgoKTUlTL9Cb0ZbQutCw0YAtPtCSADsM0Lg6INCkAGkFvNGD0LLQsABuBiwg0LDQsdC-IABRBb7QstC7AHEegyBQT1NUIC9wYXRpZW50cy9jb21wb3NpdGlvbgoKAGUQAHIVl9Cw0L_Qu9Cw0L0AgQUG0YLQuCBBc3luYyBKb2IAMhMAgU4OOgAmBkpvYiBzY2hlZHVsZWQgKGV0YSkAgXQSACoQ0KLQsNC50LzQtdGAINC90LAgYXN5bkpvYi5kYXRhLmV0YQCCOREAgjcUR0UAgXkKAIF2DC9qb2JzL3thAIEZB0lkfQCCARIAgTQbcGVuZGluZwCBNhcAgRg2AIJvJACCcwkgQ29tcGxldGVkAIQtJACBSjwAgzoaYwB7CCAoAIRRCwCDawhTdGF0ZURhdGEubGlua3MAg2ATAIMQHnMvewCFNAdJZH0vZW5jb3VudGVyL3sAAglJZH0Ag0YNewCFVwsAgSUmAIZuDb7QuiDQvtGC0YDQuNC8AIZzBb4gCgo&s=default)
+2. Створення медичного висновку (загальна логіка) [Діграмма взаємодії](https://www.websequencediagrams.com/cgi-bin/cdraw?lz=dGl0bGUg0KHRgtCy0L7RgNC10L3QvdGPINC80LXQtNCy0LjRgdC90L7QstC60ZbQsjog0JfQsNCz0LDQu9GM0L3QsCDQu9C-0LPRltC60LAKCk1JUy_QmwAIBtGALT7QkgA3DNC4OiDQodGEAGcFvNGD0LLQsNGC0LggAF0NvtC6IFBPU1QgL3BhdGllbnRzL2NvbXBvc2l0aW9uCgBDEABQFZ_QtQCBSgWy0ZbRgNC4AF8GvdCw0Y_QstC90ZbRgdGC0Ywg0LDQstGCAIF2BbjQt9Cw0YbRltGXIGNvbmNsdXNpb246Y3JlYXRlAGMSLT4AgV0OOiBIVFRQLzQwMSAo0YMAgUwF0L_QsNC00LrRgyDQv9C-0LzQuNC70LoAgWkGsNC70ZbQtABrCCkKAIEyJpfQsNC_0LvQsNC9AII0C0FzeW5jIEpvYgCCChMAgRcQACMJINC00LXRggCBBAYKAG4SPC0-ZUhlYWx0aDog0KMAgiEFh9C9AIQaCdGWINC_0LAAglsLutCwINC00LDQvdC40YUg0L_RgNC-IACBYwUAhAkF0Y8sAAML0L3Rjiwg0LTRlgCETAW90L7Qt9GDINGW0YLQtACDPyYAhDYU0ZYg0LfQsQCDeAezAIRIFtC3AIUtBbTQvdC-INGI0LDQsQCFQgW90YMgWE1MAIJmJgCCPwpDb21wbGV0ZWQAhVwkR0VUIC8AhFcKL2pvYnMve2lkfQCDFChKb2IgYwBqCCAoAIUiCgAWCExpc3RJdGVtLmhyZWYpAGspAIZkCXsAhnAHSWR9L2VuY291bnRlci97AAIJSWR9AIcFDC97AIcTC0kAgSMlAIgJDQCDDAWyINGBAIUHBb3RliBQUkVMSU1JTkFSWQCIQBIAOxGfAIZDBb_QuNGB0YPRlCDQtNC-0LrRgwCJPwW90YIAhSUFstC4AIZoBZQAhS8GhtGW0ZTQvdGC0YMAiQ8lAFkLAIkZGUFUQ0gAiSoJAIITDmlkfS9hYwCCKAVzaWcAiFNwAF0WAIhdZACKDhUyMDAAhjAMAIpbBWQAiGMcIACELAUAiioHAIwpDL8Ag3AKAIkJBgCDGgzQvdGC0LAAii4oAIgiD77Qscq80ZTQutGCAIwyBSBTV0lGVC9TMwCKajzRggCMYgWzAI0WBb0AhRAGt9Cw0ZTQvNC-0LQAjHUFKERpaWEsIEVSTE4sIE1QSSwgQ2xvc3VyZQCHFzEAhxYNAIhfBmEAiDgHAIZ_JgCIB2YAiX8LAIleJwCIHh9GSU5BTAoKCg&s=default)
+
+# Group async
+
+## Patients Composition Job By AsyncJobId [/patients/composition/job/{asyncJobId}]
+
++ Parameters
+    + asyncJobId (string, required)
+
+        ID обʼєкту Async Job
+
+
+### getAsyncJobStatus [GET]
+Використовується для перевірки статусу виконання асинхронної задачі
+
++ Response 200 (application/json)
+
+        Задачу знайдено
+
+    + Attributes (compositionAsyncJobStateResponse)
+
+
+
++ Response 400 
+
+        Невірний формат запиту
+
+
+
+
++ Response 404 
+
+        Задачу не знайдено
+
+
+
+
+
+
+# Group main
+
+## Patients Composition [/patients/composition]
+
+### createComposition [POST]
+Створення запиту на отримання медвисновку
+
++ Request (<<Add Header Value>>)
+
+    + Attributes (compositionRequest)
+
+
+
++ Response 200 (application/json)
+
+        У випадку успішного створення задачі на створення висновку
+
+    + Attributes (compositionAsyncJobStateResponse)
+
+
+
++ Response 400 
+
+        У випадку невірного формату запиту
+
+
+
+
+
+## Patients Composition By PatientId [/patients/{patientId}/composition{?offset,limit,type,episodeOfCare}]
+
++ Parameters
+    + patientId (string, required)
+
+        MPI ID пацієнта
+
+
+### searchCompositions [GET]
+Пошук мед висновків висновків
++ Parameters
+    + offset (number, optional)
+
+        The number of items to skip before starting to collect the result set.
+
+    + limit (number, optional) -
+
+        The numbers of items to return.
+
+        + Default: 20
+    + type (enum[string], optional)
+
+        + Members
+            + `NEWBORN` 
+            + `TEMP_DISABILITY` 
+
+    + episodeOfCare (string, optional)
+
+
++ Response 200 (application/json)
+
+        Результати пошуку
+
+    + Attributes (array[compositionSearchResponse])
+
+
+
+
+## Patients Composition Episode EpisodeId Encounter EncounterId [/patients/{patientId}/composition/{compositionId}/episode/{episodeId}/encounter/{encounterId}]
+
++ Parameters
+    + compositionId (string, required)
+
+        ID обʼєкту Composition
+
+    + patientId (string, required)
+
+        ID обʼєкту Patient
+
+    + episodeId (string, required)
+
+        ID обʼєкту Episode of care
+
+    + encounterId (string, required)
+
+        ID обʼєкту Encounter
+
+
+### getComposition [GET]
+Отримання мед висновку
+
++ Response 200 (application/json)
+
+        У випадку коли обʼєкт інує і доступ авторизовано
+
+    + Attributes (composition)
+
+
+
++ Response 404 
+
+        У випадку відсутності запиту на висноввок
+
+
+
+
+
+## Patients Composition Sign [/patients/composition/{compositionId}/sign]
+
++ Parameters
+    + compositionId (string, required)
+
+        ID обʼєкту Composition
+
+
+### signComposition [PATCH]
+Підписання існуючого висновку
+
++ Request (<<Add Header Value>>)
+
+    + Attributes (signature)
+
+
+
++ Response 200 (application/json)
+
+        У випадку успішного створення задачі на підписання висновку
+
+    + Attributes (compositionAsyncJobStateResponse)
+
+
+
++ Response 400 
+
+        Невірний формат запиту
+
+
+
+
++ Response 500 
+
+        Помилка підпорядкованного сервісу
+
+
+
+
+
+## Patients Composition Cancel [/patients/composition/{compositionId}/cancel]
+
++ Parameters
+    + compositionId (string, required)
+
+        ID обʼєкту Composition
+
+
+### cancelComposition [PATCH]
+Відміна існуючого висновку
+
++ Request (<<Add Header Value>>)
+
+    + Attributes (signature)
+
+
+
++ Response 200 (application/json)
+
+        У випадку успішної відміни мед висновку
+
+    + Attributes (compositionAsyncJobStateResponse)
+
+
+
++ Response 400 
+
+        Невірний формат запиту
+
+
+
+
++ Response 401 
+
+        Роль користувача не дозволяє виконання операції
+
+
+
+
++ Response 404 
+
+        Обʼєкту висновку не знайдено
+
+
+
+
++ Response 500 
+
+        Помилка підпорядкованного сервісу
+
+
+
+
+
+## Patients Composition Erln [/patients/composition/{compositionId}/erln]
+
++ Parameters
+    + compositionId (string, required)
+
+        ID обʼєкту Composition
+
+
+### PatientsCompositionErlnByCompositionIdPATCH [PATCH]
+Повторне надсилання медичного висновку в ЄРЛН. Використовується тільки для МВ про тимчасову непрацездатність
+
++ Response 200 (application/json)
+
+        Запит успішно передано на обробку
+
+    + Attributes (compositionAsyncJobStateResponse)
+
+
+
++ Response 400 
+
+        Повторна відправка цього висновку не дозволена (невідповідний статус, або тип висновку)
+
+
+
+
++ Response 404 
+
+        Висновок не знайдено
+
+
+
+
+
+
+# Data Structures
+
+## composition (object)
+https://www.hl7.org/fhir/composition.html
+
+### Properties
++ `identifier` (resourceIdentifier, required) - http://hl7.org/fhir/STU3/datatypes.html#Identifier
++ `status` (enum[string], required) - Стан медвисновку https://wldd.atlassian.net/wiki/spaces/emal/pages/220397569
+    + `PRELIMINARY`
+    + `FINAL`
+    + `AMENDED`
+    + `ENTERED-IN-ERROR`
++ `category` (codeableConceptCompositionCategory, required) 
++ `type` (codeableConceptCompositionType, required) 
++ `date` (string, required) 
++ `title` (string, required) 
++ `relatesTo` (compositionRelatesTo, optional) - Використовується у випадках продовження або дострокового лікарняного
++ `event` (array[compositionEvent], optional) 
++ `subject` (resourceIdentifier, required) - http://hl7.org/fhir/STU3/datatypes.html#Identifier
++ `custodian` (resourceIdentifier, required) - http://hl7.org/fhir/STU3/datatypes.html#Identifier
++ `encounter` (resourceIdentifier, required) - http://hl7.org/fhir/STU3/datatypes.html#Identifier
++ `author` (resourceIdentifier, required) - http://hl7.org/fhir/STU3/datatypes.html#Identifier
++ `section` (compositionSection, required) 
++ `extension` (array[Extension], required) 
+
+
+## compositionRequest (object)
+Запит на створення висновку
+
+### Properties
++ `category` (codeableConceptCompositionCategory, required) 
++ `type` (codeableConceptCompositionType, required) 
++ `event` (array[compositionEvent], optional) 
++ `subject` (resourceIdentifier, required) - http://hl7.org/fhir/STU3/datatypes.html#Identifier
++ `encounter` (resourceIdentifier, required) - http://hl7.org/fhir/STU3/datatypes.html#Identifier
++ `author` (resourceIdentifier, required) - http://hl7.org/fhir/STU3/datatypes.html#Identifier
++ `section` (compositionSectionRequest, required) 
++ `extension` (array[Extension1], required) - Розширення обʼєкту для додаткових функцій обробки мед висновків
+
+
+## compositionEvent (object)
+https://www.hl7.org/fhir/composition-definitions.html#Composition.event
+
+### Properties
++ `code` (codeableConceptCompositionEvent, optional) 
++ `period` (compositionEventPeriod, required) - https://www.hl7.org/fhir/datatypes.html#Period
+
+
+## compositionEventPeriod (object)
+https://www.hl7.org/fhir/datatypes.html#Period
+
+### Properties
++ `start`: `2020-06-26T15:22:53.403Z` (string, required) 
++ `end`: `2020-07-26T15:22:53.403Z` (string, optional) 
+
+
+## codeableConceptCompositionEvent (object)
+
+
+### Properties
++ `coding` (array[codeableConceptCompositionEventCoding], required) 
+
+
+## codeableConceptCompositionEventCoding (object)
+
+
+### Properties
++ `system`: `eHealth/composition_events` (string, required) 
++ `code`: `COMPOSITION_VALIDITY_PERIOD` (string, required) 
+
+
+## compositionSection (object)
+
+
+### Properties
++ `focus` (resourceIdentifier, optional) - http://hl7.org/fhir/STU3/datatypes.html#Identifier
++ `text` (compositionText, optional) - Текст медвисновку згідно шаблонів визначених в системі, завжди генерується сервером. Модель даних шаблонів https://dbdiagram.io/d/5e70a7624495b02c3b8858e0
+
+
+## compositionSectionRequest (object)
+
+
+### Properties
++ `focus` (resourceIdentifier, required) - http://hl7.org/fhir/STU3/datatypes.html#Identifier
+
+
+## compositionText (object)
+Текст медвисновку згідно шаблонів визначених в системі, завжди генерується сервером. Модель даних шаблонів https://dbdiagram.io/d/5e70a7624495b02c3b8858e0
+
+### Properties
++ `status`: `generated` (string, required) 
++ `div` (string, required) 
+
+
+## compositionRelatesTo (object)
+Використовується у випадках продовження або дострокового лікарняного
+
+### Properties
++ `code` (enum[string], required) 
+    + `transforms`
+    + `appends`
+    + `replaces`
++ `targetIdentifier` (resourceIdentifier, required) - http://hl7.org/fhir/STU3/datatypes.html#Identifier
+
+
+## compositionSearchResponse (object)
+Результат пошуку активних медичних висновків
+
+### Properties
++ `identifier` (resourceIdentifier, optional) - http://hl7.org/fhir/STU3/datatypes.html#Identifier
++ `status` (enum[string], optional) - Стан медвисновку https://wldd.atlassian.net/wiki/spaces/emal/pages/220397569
+    + `PRELIMINARY`
+    + `FINAL`
+    + `AMENDED`
+    + `ENTERED-IN-ERROR`
++ `title` (string, optional) - Composition.title
++ `type` (codeableConceptCompositionType, optional) 
++ `date` (string, optional) - Дата створення мед висновку
++ `encounter` (resourceIdentifier, optional) - http://hl7.org/fhir/STU3/datatypes.html#Identifier
++ `episodeOfCare` (resourceIdentifier, optional) - http://hl7.org/fhir/STU3/datatypes.html#Identifier
+
+
+## signature (object)
+Обʼєкт цифрового підпису. FHIR: https://www.hl7.org/fhir/datatypes.html#Signature
+
+### Properties
++ `data` (string, required) - Signed payload
+
+
+## dummyCancelationSchema (object)
+Структура обʼєкту повідомлення про відміну медичного висновку
+
+### Properties
++ `identifier` (resourceIdentifier, required) - http://hl7.org/fhir/STU3/datatypes.html#Identifier
++ `reason` (codeableConceptCancellationReason, required) 
+
+
+## resourceIdentifier (object)
+http://hl7.org/fhir/STU3/datatypes.html#Identifier
+
+### Properties
++ `type` (codeableConcept, required) 
++ `value`: `e49abc30-6d17-11ea-b83c-673680173afa` (string, required) 
+
+
+## codeableConcept (object)
+
+
+### Properties
++ `coding` (array[codeableConceptCoding], required) 
++ `text` (string, optional) - Описова частина
+
+
+## codeableConceptCoding (object)
+
+
+### Properties
++ `system`: `eHealth/composition` (string, required) 
++ `code` (string, required) 
+
+
+## codeableConceptCancellationReason (object)
+
+
+### Properties
++ `coding` (array[codeableConceptCodingCancellationReason], required) 
++ `text`: `Я, Шевченко Наталія Олександрівна, 20.07.2018 здійснила механічну помилку при внесенні медичного висновку до системи` (string, required) 
+
+
+## codeableConceptCodingCancellationReason (object)
+
+
+### Properties
++ `system`: `eHealth/composition_cancellation_reasons` (string, required) 
++ `code` (enum[string], required) 
+    + `INCORRECT_PATIENT`
+    + `TYPO`
+
+
+## codeableConceptCompositionType (object)
+
+
+### Properties
++ `coding` (array[codeableConceptCompositionTypeCoding], required) 
+
+
+## codeableConceptCompositionTypeCoding (object)
+
+
+### Properties
++ `system`: `eHealth/composition_types` (string, required) 
++ `code` (enum[string], required) - Тип медичного висновку
+    + `NEWBORN`
+    + `TEMP_DISABILITY`
+
+
+## codeableConceptCompositionCategory (object)
+
+
+### Properties
++ `coding` (array[codeableConceptCompositionCategoryCoding], required) 
+
+
+## codeableConceptCompositionCategoryCoding (object)
+
+
+### Properties
++ `system`: `eHealth/composition_categories` (string, required) 
++ `code`: `LIVE_BIRTH` (string, required) 
+
+
+## disabilityAccidentExtension (object)
+розширення, для вказання лікарем випадків, що непрацездатність викликана випадком на виробництві (тільки для висновків про тимчасову непрацездатність)
+
+### Properties
++ `valueCode`: `IS_ACCIDENT` (string, required) 
++ `valueBoolean` (boolean, required) - Чи цей випадок пов'язаним із професійною діяльністю працівника
+
+
+## disabilityIntoxicationExtension (object)
+розширення, для вказання лікарем випадків, що висновок створено при наявній інтоксикації пацієнта
+
+### Properties
++ `valueCode`: `IS_INTOXICATED` (string, required) 
++ `valueBoolean` (boolean, required) - Чи виявлено алкогольну, наркотичну інтоксикацію
+
+
+## disabilityForeignTreatmentExtension (object)
+розширення, для вказання лікарем випадків, які відносяться до лікування за кордоном
+
+### Properties
++ `valueCode`: `IS_FOREIGN_TREATMENT` (string, required) 
++ `valueBoolean` (boolean, required) - Чи відбувалось лікування за кордоном
+
+
+## disabilityTreatmentViolationExtension (object)
+розширення, для вказання лікарем випадків, що непрацездатність викликана порушенням режиму лікування. Значення відповідно до словника COMPOSITION_TREATMENT_VIOLATION
+
+### Properties
++ `valueCode`: `TREATMENT_VIOLATION` (string, required) 
++ `valueString` (enum[string], required) 
+    + `late_arrival`
+    + `alcohol_intoxication`
+    + `narcotic_intoxication`
+    + `toxic_intoxication`
+    + `hospital_leave`
+    + `hospital_change_unauthorized`
+    + `reject_examination`
+
+
+## disabilityTreatmentViolationDateExtension (object)
+дата порушення режиму лікування. Обовʼязкова, якщо надано disabilityTreatmentViolationExtension
+
+### Properties
++ `valueCode`: `TREATMENT_VIOLATION_DATE` (string, required) 
++ `valueDate`: `2020-12-12` (string, required) 
+
+
+## disabillityTicketExtension (object)
+Квитанція щодо статусу е-Лікарняного в ЕРЛН. Завжди генерується сервером
+
+### Properties
++ `valueCode`: `ERLN_DISABILITY_TICKET` (string, required) 
++ `valueString` (string, required) 
+
+
+## disabilityErrorTextExtension (object)
+Деталі помилки взаємодії з ЕРЛН(тільки для випадку помилки). Завжди генерується сервером
+
+### Properties
++ `valueCode`: `ERLN_DISABILITY_ERROR_TEXT` (string, required) 
++ `valueString` (string, required) 
+
+
+## disabillityProcessingStatusExtension (object)
+Розширення, яке заповнюється сервером для казання статусу опрацювання висновку зовнішніми відомствами ПФ і ФСС.
+
+### Properties
++ `valueCode`: `TEMP_DISABILITY_PROCESSING_STATUS` (string, required) 
++ `valueString` (enum[string], required) 
+    + `PENDING`
+    + `IN_PROGRESS`
+    + `DONE`
+    + `ERROR`
+
+
+## disabilityForceNewExtension (object)
+розширення, для вказання лікарем випадків, які однозначно вказують на початок нового випадку лікування, і не дозволяють проовжувати будь-які існуючі
+
+### Properties
++ `valueCode`: `IS_FORCE_RENEW` (string, required) 
++ `valueBoolean` (boolean, required) - Чи лікар підтверджуює, що даний МВ є початком нового лікування
+
+
+## newbornProcessingStatusExtension (object)
+Розширення, яке заповнюється сервером для казання статусу опрацювання висновку зовнішніми відомствами МінЮст.
+
+### Properties
++ `valueCode`: `NEWBORN_PROCESSING_STATUS` (string, required) 
++ `valueString` (enum[string], required) 
+    + `PENDING`
+    + `IN_PROGRESS`
+    + `DONE`
+    + `ERROR`
+
+
+## authorizeWithExtension (object)
+Розширення, яке використовується лікарем для вказання методу авторизація для надсилання СМС.
+
+### Properties
++ `valueCode`: `AUTHORIZE_WITH` (string, required) 
++ `valueUuid` (string, optional) 
+
+
+## compositionAsyncJobStateResponse (object)
+Стан планування/виконання асинхронної задачі
+
+### Properties
++ `data` (compositionAsyncJobStateData, required) 
+
+
+## compositionAsyncJobStateData (object)
+
+
+### Properties
++ `id` (string, optional) 
++ `status` (enum[string], required) 
+    + `PENDING`
+    + `FAILED`
+    + `DONE`
++ `eta` (string, required) 
++ `doneAt` (string, required) 
++ `links` (array[compositionAsyncJobListItem], required) 
+
+
+## compositionAsyncJobListItem (object)
+
+
+### Properties
++ `entity`: `eHealth/composition` (string, required) 
++ `href`: `composition/0daaad78-6cfb-11ea-9cd6-afab698838bc` (string, optional) 
++ `error` (string, optional) 
+
+
+## Extension (object)
+
+
+### Properties
++ `valueCode` (enum[string], optional) 
+    + `IS_ACCIDENT`
++ `valueBoolean` (boolean, optional) - Чи цей випадок пов'язаним із професійною діяльністю працівника
++ `valueString` (enum[string], optional) 
+    + `PENDING`
+    + `IN_PROGRESS`
+    + `DONE`
+    + `ERROR`
++ `valueUuid` (string, optional) 
+
+
+## Extension1 (object)
+
+
+### Properties
++ `valueCode` (enum[string], optional) 
+    + `AUTHORIZE_WITH`
++ `valueUuid` (string, optional) 
++ `valueBoolean` (boolean, optional) - Чи цей випадок пов'язаним із професійною діяльністю працівника
++ `valueString` (enum[string], optional) 
+    + `late_arrival`
+    + `alcohol_intoxication`
+    + `narcotic_intoxication`
+    + `toxic_intoxication`
+    + `hospital_leave`
+    + `hospital_change_unauthorized`
+    + `reject_examination`
++ `valueDate`: `2020-12-12` (string, optional) 
